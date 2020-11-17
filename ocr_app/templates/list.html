@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>OCR Converter</title>
+    </head>
+
+    <body>
+        <!-- List of uploaded documents -->
+        {% if documents %}
+                {% for document in documents %}
+                        <p><a href="{{ document.docfile.url }}">{{ document.analyzed_text }}</a></p>
+                {% endfor %}
+                {% for text in analyzed_text%}
+                    <span>{{ text.ana_text }}</span>
+                {% endfor %}
+        {% else %}
+            <p>No documents.</p>
+        {% endif %}
+
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url 'list' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+
+
+            <p><input type="submit" value="Upload"/></p>
+        </form>
+    </body>
+
+</html>
